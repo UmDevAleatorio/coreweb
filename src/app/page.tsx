@@ -1,12 +1,9 @@
 'use client'
 
 import { useEffect, useState } from "react";
-// Importe o ProductCard do novo repositório
 import { ProductCard }from "@/components/ProductCard"; 
 import { Product } from "@/core/domain/entities/Product";
 import { makeProductUseCases } from "@/core/factories/makeProductUseCases";
-
-// Importe as imagens
 import martelo from '@/assets/martelo.jpeg';
 import serraeletrica from '@/assets/serraeletrica.jpeg';
 import serracircular from '@/assets/serracircular.jpeg';
@@ -18,7 +15,6 @@ import sacosdecimento from '@/assets/sacosdecimento.jpeg';
 
 export default function Home() {
   const [products, setProducts] = useState<Product[]>([]);
-  // Corretamente pegando os casos de uso
   const { findAllProducts, createProduct } = makeProductUseCases();
 
   useEffect(() => {
@@ -26,7 +22,6 @@ export default function Home() {
       try {
         let fetchedProducts = await findAllProducts.execute();
 
-        // Se o repositório mockado estiver vazio, crie os produtos
         if (fetchedProducts.length === 0) {
           console.log("Nenhum produto encontrado, criando mocks...");
           
@@ -41,21 +36,16 @@ export default function Home() {
             { name: "Saco de Cimento", price: 25.00, stock: 300, photo: sacosdecimento.src },
           ];
 
-          // --- CORREÇÃO APLICADA ---
-          // Passamos os valores primitivos (string, number) para o caso de uso,
-          // conforme ele espera em sua definição.
           for (const p of mockProductsData) {
             await createProduct.execute({
               name: p.name,
               price: p.price,
               photoUrl: p.photo,
               stock: p.stock,
-              userId: 'mock-user' // ID de usuário mockado, exigido pelo use case
+              userId: 'mock-user' 
             });
           }
-          // --- FIM DA CORREÇÃO ---
           
-          // Busque os produtos novamente após criá-los
           fetchedProducts = await findAllProducts.execute();
         }
 
@@ -66,10 +56,8 @@ export default function Home() {
     };
 
     fetchProducts();
-  }, [findAllProducts, createProduct]); // Dependências do useEffect
+  }, [findAllProducts, createProduct]); 
 
-  // Este JSX é o mesmo do seu repositório antigo (123-549...), 
-  // que corresponde aos seus prints.
   return (
     <main className="container mx-auto py-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 min-h-[calc(100vh-8rem)]">
       {products.map((product) => (

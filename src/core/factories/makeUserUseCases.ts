@@ -1,7 +1,7 @@
 import { IUserRepository } from '../domain/repositories/IUserRepository';
 import { LoginUser } from '../domain/use-cases/LoginUser';
 import { RegisterUser } from '../domain/use-cases/RegisterUser';
-import { FindUserByEmail } from '../domain/use-cases/FindUserByEmail'; // 1. IMPORTE O NOVO ARQUIVO
+import { FindUserByEmail } from '../domain/use-cases/FindUserByEmail';
 import { MockUserRepository } from '../infra/mocks/MockUserRepository';
 
 export function makeUserUseCases() {
